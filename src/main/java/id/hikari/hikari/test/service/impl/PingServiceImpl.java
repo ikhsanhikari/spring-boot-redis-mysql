@@ -25,7 +25,7 @@ public class PingServiceImpl implements PingService {
     public ResponseEntity readAll() {
         List<Ping> pings = pingDAO.findAll();
         if(pings.size()>0){
-            return ResponseEntity.ok(new DataResponse(pings,"pings","1"));
+            return ResponseEntity.ok(new DataResponse("1","Pings",pings));
         }else{
             return  ResponseEntity.badRequest().body("List ping not found ");
         }

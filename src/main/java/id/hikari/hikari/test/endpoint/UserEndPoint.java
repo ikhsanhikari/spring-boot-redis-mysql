@@ -9,13 +9,13 @@ import java.util.List;
 
 @RequestMapping("/users")
 public interface UserEndPoint {
-    @GetMapping(value = "/")
+    @GetMapping(value = "")
     ResponseEntity<List<User>> getUsers();
 
     @GetMapping(value = "/{id}")
     ResponseEntity<User> getUsers(@PathVariable("id") final String userId);
 
-    @PostMapping(value = "/")
+    @PostMapping(value = "")
     ResponseEntity<Void> createUser(@RequestBody final User user);
 
     @DeleteMapping(value = "/{id}")

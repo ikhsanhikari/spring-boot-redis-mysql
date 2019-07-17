@@ -1,121 +1,89 @@
 package id.hikari.hikari.test.service.impl;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
+
 import id.hikari.hikari.test.dao.UserDAO;
+import id.hikari.hikari.test.dao.UserRedisDAO;
+import id.hikari.hikari.test.data.dto.response.DataResponse;
+import id.hikari.hikari.test.data.dto.response.SuccessResponse;
 import id.hikari.hikari.test.data.model.User;
 import id.hikari.hikari.test.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService  {
 
 	@Autowired
 	private UserDAO userDAO;
 
-
 	@Autowired
-	private RedisTemplate<String, String> userTemplateList;
-
-	private static final String REDIS_PREFIX_USERS = "users";
-
-	private static final String REDIS_KEYS_SEPARATOR = ":";
-
+	private UserRedisDAO userRedisDAO;
 
 	@Override
-	public ResponseEntity saveDB(User user) {
-		ResponseEntity userCek = findByIdDB(user.getId());
-		if(userCek!=null){
-			userDAO.save(user);
-			deleteCache("*");
-			deleteCache(user.getId());
-			return ResponseEntity.ok("Success update Data");
+	public ResponseEntity save(User user) {
+		if(isExist(user.getId())){
+			User user1 = userDAO.save(user);
+			userRedisDAO.deleteCache("*");
+			userRedisDAO.deleteCache(user.getId());
+			return ResponseEntity.ok(new SuccessResponse("Users","Success Update Data",user1));
 		}else{
-			userDAO.save(user);
-			deleteCache("*");
-			return ResponseEntity.ok("Success saving data");
+			User user1 = userDAO.save(user);
+			userRedisDAO.deleteCache("*");
+			return ResponseEntity.ok(new SuccessResponse("Users","Success Saving Data",user1));
 		}
 
 	}
 
 	@Override
-	public ResponseEntity findAllDB() {
-		User[] users = selectFromCache("*");
+	public DataResponse select() {
+		User[] users = userRedisDAO.selectFromCache("*");
 		if (users!=null ) {
-			return ResponseEntity.ok(users);
+			return new DataResponse("All Users","Users",users);
 		} else {
 			List<User> usersDB = userDAO.findAll();
-			setToCache("*",usersDB);
-			return ResponseEntity.ok(usersDB);
+			userRedisDAO.setToCache("*",usersDB);
+			return new DataResponse("All Users","Users",usersDB);
 		}
 	}
 
-	private User[] selectFromCache(String redisKey){
-		String result = userTemplateList.opsForValue().get(getRedisKey(redisKey));
-		return convertToJsonArray(result);
-	}
 
-	private User getFromCache(String redisKey){
-		String result = userTemplateList.opsForValue().get(getRedisKey(redisKey));
-		return convertToJson(result);
-	}
-
-	private void setToCache(String redisKey,Object users){
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			String jsonInString = mapper.writeValueAsString(users);
-			userTemplateList.opsForValue().set(getRedisKey(redisKey), jsonInString);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-	}
 
 	@Override
-	public ResponseEntity findByIdDB(String id) {
-		User user = getFromCache(id);
+	public DataResponse get(String id) {
+		User user = userRedisDAO.getFromCache(id);
 		if(user!=null){
-			return ResponseEntity.ok(user);
+			return new DataResponse(id,"Users",user);
 		}else{
 			User user1 = userDAO.findById(id).orElse(null);
-			setToCache(id,user1);
-			return ResponseEntity.ok(user1);
+			userRedisDAO.setToCache(id,user1);
+			return new DataResponse(id,"Users",user1);
 		}
 	}
 
 	@Override
-	public ResponseEntity deleteDB(String id) {
+	public ResponseEntity delete(String id) throws Exception {
+		if(!isExist(id)) {
+			throw new Exception("Failed To Get Data");
+		}
 		User user = new User();
 		user.setId(id);
 		userDAO.delete(user);
-		deleteCache(id);
 
-		return ResponseEntity.ok("Delete Success");
+		userRedisDAO.deleteCache("*");
+		userRedisDAO.deleteCache(user.getId());
+
+		return ResponseEntity.ok(new SuccessResponse("Users","Success Delete User",id));
 	}
 
-	private String getRedisKey(final String userId) {
-		return REDIS_PREFIX_USERS + REDIS_KEYS_SEPARATOR + userId;
+	private Boolean isExist(String id){
+		DataResponse userCek = get(id);
+		if(userCek.getAttributes()!=null){
+			return true;
+		}
+		return false;
 	}
 
-
-	private User[] convertToJsonArray(String json){
-		Gson gson = new Gson();
-		User[] result = gson.fromJson(json, User[].class);
-		return result;
-	}
-
-	private User convertToJson(String json){
-		Gson gson = new Gson();
-		User result = gson.fromJson(json, User.class);
-		return result;
-	}
-
-	private void deleteCache(String redisKey){
-		userTemplateList.delete(getRedisKey(redisKey));
-	}
 }
