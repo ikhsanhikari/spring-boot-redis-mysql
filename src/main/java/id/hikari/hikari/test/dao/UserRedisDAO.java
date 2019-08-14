@@ -9,7 +9,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class UserRedisDAO {
+public class UserRedisDAO extends RedisCore<User> {
 
     @Autowired
     public RedisTemplate<String, String> userTemplateList;
@@ -28,15 +28,15 @@ public class UserRedisDAO {
         return convertToJson(result);
     }
 
-    public void setToCache(String redisKey,Object users){
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            String jsonInString = mapper.writeValueAsString(users);
-            userTemplateList.opsForValue().set(getRedisKey(redisKey), jsonInString);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-    }
+//    public void setToCache(String redisKey,Object users){
+//        ObjectMapper mapper = new ObjectMapper();
+//        try {
+//            String jsonInString = mapper.writeValueAsString(users);
+//            userTemplateList.opsForValue().set(getRedisKey(redisKey), jsonInString);
+//        } catch (JsonProcessingException e) {
+//            e.printStackTrace();
+//        }
+//    }
     public String getRedisKey(final String userId) {
         return REDIS_PREFIX_USERS + REDIS_KEYS_SEPARATOR + userId;
     }
@@ -54,7 +54,7 @@ public class UserRedisDAO {
         return result;
     }
 
-    public void deleteCache(String redisKey){
-        userTemplateList.delete(getRedisKey(redisKey));
-    }
+//    public void deleteCache(String redisKey){
+//        userTemplateList.delete(getRedisKey(redisKey));
+//    }
 }

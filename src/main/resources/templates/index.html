@@ -1,0 +1,23 @@
+<!--<div th:each="questionDTO: ${question.attributes}">-->
+<!--    <p th:text="${questionDTO.id}"></p>-->
+<!--    <p th:text="${questionDTO.question}"></p>-->
+<!--    <div th:each="answer1: ${questionDTO.answers}">-->
+<!--        <li th:text{answer1.id}></li>-->
+<!--    </div>-->
+
+<!--</div>-->
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script>
+    $.getJSON( "localhost:8089/questions", function( data ) {
+      var items = [];
+      $.each( data, function( key, val ) {
+        items.push( "<li id='" + key + "'>" + val + "</li>" );
+      });
+
+      $( "<ul/>", {
+        "class": "my-new-list",
+        html: items.join( "" )
+      }).appendTo( "body" );
+    });
+</script>
