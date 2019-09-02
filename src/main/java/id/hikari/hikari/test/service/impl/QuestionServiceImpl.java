@@ -94,6 +94,7 @@ public class QuestionServiceImpl implements QuestionService {
                 answerDTO.setId(answer.getId());
                 answerDTO.setAnswer(answer.getAnswer());
                 answerDTO.setVariable(answer.getVariable());
+                answerDTO.setStatus(answer.getStatus());
                 answerDTOS.add(answerDTO);
             }
             questionDTO.setAnswers(answerDTOS);

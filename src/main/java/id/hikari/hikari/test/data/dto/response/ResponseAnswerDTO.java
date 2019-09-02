@@ -16,4 +16,5 @@ public class ResponseAnswerDTO implements Serializable {
     private Integer id;
     private Character variable;
     private String answer;
+    private Boolean status;
 }

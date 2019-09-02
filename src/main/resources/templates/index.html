@@ -1,23 +1,85 @@
-<!--<div th:each="questionDTO: ${question.attributes}">-->
-<!--    <p th:text="${questionDTO.id}"></p>-->
-<!--    <p th:text="${questionDTO.question}"></p>-->
-<!--    <div th:each="answer1: ${questionDTO.answers}">-->
-<!--        <li th:text{answer1.id}></li>-->
-<!--    </div>-->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
-<!--</div>-->
 
-<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<form name="frm">
+    <input type="text" name="questionText" placeholder="question"><br>
+    <input type="text" name="questionType" placeholder="question type"><br>
+    <input type="text" name="questionLevel" placeholder="question level"><br>
+    <input type="text" name="answer[0]" placeholder="answer 1"><br>
+    <input type="text" name="answer[1]" placeholder="answer 2"><br>
+    <input type="text" name="answer[2]" placeholder="answer 3"><br>
+    <input type="text" name="answer[3]" placeholder="answer 4"><br>
+</form>
+<button id="btnSave" onclick="save()">Save</button>
+
+
+<h5 id="question"></h5>
+
+
 <script>
-    $.getJSON( "localhost:8089/questions", function( data ) {
-      var items = [];
-      $.each( data, function( key, val ) {
-        items.push( "<li id='" + key + "'>" + val + "</li>" );
+
+    // Make a request for a user with a given ID
+    axios.get('http://localhost:8089/questions')
+      .then(function (response) {
+        // handle success
+        console.log(response);
+        questionData(response);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+      .finally(function () {
+        // always executed
       });
 
-      $( "<ul/>", {
-        "class": "my-new-list",
-        html: items.join( "" )
-      }).appendTo( "body" );
-    });
+      function questionData(response){
+        var question = document.getElementById('question');
+        var questionList = response.data.attributes;
+        var result = 'Daftar Pertanyaan : <br>';
+        for (var a = 0 ; a < questionList.length; a++){
+            var responseQuestion = questionList[a].question;
+            result += '</br>'+(a+1)+'. '+responseQuestion+'</br>';
+            var answerList = response.data.attributes[a].answers;
+            for (var b = 0; b < answerList.length; b++){
+                var responseAnswer = answerList[b];
+                result += responseAnswer.variable+'. '+responseAnswer.answer+'</br>';
+            }
+        }
+        question.innerHTML = '<div>'+result+'</div>';
+      }
+
+      function save(){
+        var frm = document.forms['frm'];
+        var payload = {
+            question: frm['questionText'].value,
+            questionType: frm['questionType'].value,
+            questionLevel:frm['questionLevel'].value,
+            answers: [
+                {
+                    status: false,
+                    answer: frm['answer[0]'].value
+                },
+                {
+                    status: false,
+                    answer: frm['answer[1]'].value
+                },
+                {
+                    status: false,
+                    answer: frm['answer[2]'].value
+                },
+                {
+                    status: true,
+                    answer: frm['answer[3]'].value
+                }
+            ]
+          };
+        axios.post('http://localhost:8089/questions', payload)
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
 </script>
