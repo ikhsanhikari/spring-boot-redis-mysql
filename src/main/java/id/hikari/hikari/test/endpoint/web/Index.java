@@ -20,4 +20,25 @@ public class Index {
         modelMap.addAttribute("question",dataResponse);
         return "index";
     }
+
+    @GetMapping("/question")
+    public String question(){
+        return "question";
+    }
+
+    @GetMapping("/create-question")
+    public String createQuestion(){
+        return "create_question";
+    }
+
+
+    @GetMapping("/answer")
+    public String answer(){
+        return "answer";
+    }
+
+    @GetMapping("/create-answer")
+    public String createAnswer(){
+        return "create_answer";
+    }
 }

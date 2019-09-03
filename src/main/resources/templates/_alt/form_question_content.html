@@ -1,0 +1,44 @@
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+<link rel="stylesheet" href="sweetalert2.min.css">
+<script src="sweetalert2.all.min.js"></script>
+<script src="answer_main.js"></script>
+
+<h1>Question Management</h1> <br>
+<form name="frm">
+<div class="row">
+        <div class="col-md-6">
+                <div class="form-group">
+                    <label for="questionText">Question:</label>
+                    <textarea class="form-control" rows="5" id="questionText" name="questionText"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="questionType">Question Type:</label>
+                    <select class="form-control" id="questionType" name="questionType">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="questionLevel">Question Type:</label>
+                    <select class="form-control" id="questionLevel" name="questionLevel">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                    </select>
+                </div>
+
+        </div>
+        <div class="col-md-6">
+            <div id="answerForm"></div>
+        </div>
+
+</div>
+</form>
+<button id="btnSave" class="btn btn-primary" onclick="save()">Save</button>
+<script>
+    createAnswerForm();
+</script>
