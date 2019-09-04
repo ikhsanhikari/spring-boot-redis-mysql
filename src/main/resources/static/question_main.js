@@ -19,18 +19,18 @@
      function questionData(response){
         var question = document.getElementById('question');
         var questionList = response.data.attributes;
-        var result = '<table border = "1" class="table">'+
+        var result = '<table class="table">'+
                         '<tr>'+
                             '<th>No</th>'+
                             '<th>Question</th>'+
                             '<th>Answer</th>'+
                         '</tr>';
         for (var a = 0 ; a < questionList.length; a++){
-            var responseQuestion = questionList[a].question;
+            var responseQuestion = questionList[a];
             var answerList = response.data.attributes[a].answers;
             result += '<tr>'+
-                            '<td rowspan="'+(answerList.length+1)+'">'+(a+1)+'</td>'+
-                            '<td rowspan="'+(answerList.length+1)+'">'+responseQuestion+'</td>'+
+                            '<td rowspan="'+(answerList.length+1)+'">'+responseQuestion.id+'</td>'+
+                            '<td rowspan="'+(answerList.length+1)+'">'+responseQuestion.question+'</td>'+
                         '</tr>';
 
             for (var b = 0; b < answerList.length; b++){

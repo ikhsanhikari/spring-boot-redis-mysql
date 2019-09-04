@@ -1,8 +1,8 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
-<script src="question_main.js"></script>
+<script src="question_master_main.js"></script>
 
-<h1>Question Answer Management</h1> <br>
+<h1>Question Management</h1> <br>
 <form name="frm">
 <div class="row">
         <div class="col-md-6">
@@ -20,7 +20,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="questionLevel">Question Type:</label>
+                    <label for="questionLevel">Question Level:</label>
                     <select class="form-control" id="questionLevel" name="questionLevel">
                         <option>1</option>
                         <option>2</option>
@@ -30,13 +30,10 @@
                 </div>
 
         </div>
-        <div class="col-md-6">
-            <div id="answerForm"></div>
-        </div>
 
 </div>
 </form>
 <button id="btnSave" class="btn btn-primary" onclick="save()">Save</button>
 <script>
-    createAnswerForm();
+   // createAnswerForm();
 </script>

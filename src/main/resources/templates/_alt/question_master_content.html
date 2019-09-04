@@ -1,6 +1,6 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
-<script src="answer_main.js"></script>
+<script src="question_master_main.js"></script>
 
 
 
@@ -10,7 +10,8 @@
         <div class="modal-content">
             <form name="frm">
                 <input type="hidden" id="id" name="id" value="test">
-                <div class="modal-body" id="modal-answer">
+
+                <div class="modal-body" id="modal-question-answer">
 
                 </div>
             </form>
@@ -23,14 +24,14 @@
 </div>
 </div>
 
-<h1>Answer Management</h1> <br>
+<h1>Question Management</h1> <br>
 <div class="row">
 
     <div class="col-md-12">
-        <div id="answer"></div>
+        <div id="question-master"></div>
     </div>
 </div>
 
 <script>
-    selectAllAnswer('');
+    selectAllQuestionMaster();
 </script>

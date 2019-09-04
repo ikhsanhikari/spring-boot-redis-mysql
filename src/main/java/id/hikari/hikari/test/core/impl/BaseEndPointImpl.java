@@ -12,8 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
-import java.util.List;
 public class BaseEndPointImpl<T,ID> implements BaseEndPoint<T,ID> {
     @Autowired
     CrudRepository<T,ID> baseRepository;
@@ -38,7 +36,6 @@ public class BaseEndPointImpl<T,ID> implements BaseEndPoint<T,ID> {
         this.path=this.persistentClass.getSimpleName().toLowerCase();
     }
 
-
     @Override
     @PostMapping("")
     public ResponseEntity save(@RequestBody T t){
@@ -50,8 +47,6 @@ public class BaseEndPointImpl<T,ID> implements BaseEndPoint<T,ID> {
     @Override
     @GetMapping("")
     public ResponseEntity findAll() {
-//        List<T> result = Lists.newArrayList(baseRepository.findAll());
-//        int size = result.size();
         return ResponseEntity.ok(new JsonWrapper(0,"readAll data "+this.path,HttpStatus.OK,baseRepository.findAll()));
     }
 
@@ -59,17 +54,14 @@ public class BaseEndPointImpl<T,ID> implements BaseEndPoint<T,ID> {
     @GetMapping("/{id}")
     public ResponseEntity findById(@PathVariable("id") ID id) {
         T t = baseRepository.findById(id).orElse(null);
-        List<T> ts = new ArrayList<>();
         if(t!=null){
-            ts.add(t);
+            return ResponseEntity.ok(new JsonWrapper(1,"Read By Id", HttpStatus.OK,t));
         }else{
             LOGGER.error("Can't find Id {} ",id);
-            return ResponseEntity.ok(new JsonWrapper(ts.size(),"Read By Id", HttpStatus.NOT_FOUND,ts));
+            return ResponseEntity.ok(new JsonWrapper(1,"Read By Id", HttpStatus.NOT_FOUND,t));
         }
-        return ResponseEntity.ok(new JsonWrapper(ts.size(),"Read By Id", HttpStatus.OK,ts));
+
     }
-
-
 
     @Override
     @DeleteMapping("/{id}")

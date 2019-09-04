@@ -41,4 +41,24 @@ public class Index {
     public String createAnswer(){
         return "create_answer";
     }
+
+    @GetMapping("/question-master")
+    public String questionMaster(){
+        return "question_master";
+    }
+
+    @GetMapping("/create-question-master")
+    public String createQuestionMaster(){
+        return "create_question_master";
+    }
+
+    @GetMapping("/question-type")
+    public String questionType(){
+        return "question_type";
+    }
+
+    @GetMapping("/create-question-type")
+    public String createAnswerQuestionType(){
+        return "create_question_type";
+    }
 }
