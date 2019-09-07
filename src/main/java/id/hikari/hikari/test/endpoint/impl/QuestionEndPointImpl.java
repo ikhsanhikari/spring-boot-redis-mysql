@@ -1,12 +1,15 @@
 package id.hikari.hikari.test.endpoint.impl;
 
+import id.hikari.hikari.test.dao.QuestionAnswerDAO;
 import id.hikari.hikari.test.data.dto.request.RequestQuestionDTO;
 import id.hikari.hikari.test.endpoint.QuestionEndPoint;
 import id.hikari.hikari.test.service.QuestionService;
+import id.hikari.hikari.test.service.ResultMultipleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -15,6 +18,9 @@ public class QuestionEndPointImpl implements QuestionEndPoint {
 
     @Autowired
     QuestionService questionService;
+
+    @Autowired
+    ResultMultipleService resultMultipleService;
 
     @Override
     public ResponseEntity save(@RequestBody RequestQuestionDTO questionDTO) {
@@ -37,4 +43,11 @@ public class QuestionEndPointImpl implements QuestionEndPoint {
             return  ResponseEntity.badRequest().body("Not Found Question");
         }
     }
+
+    @Override
+    public ResponseEntity selectByRand(@RequestParam("limit") Integer limit) {
+        return ResponseEntity.ok(questionService.selectByRand(limit));
+    }
+
+
 }

@@ -29,8 +29,8 @@
             result += '<tr>'+
                             '<td>'+questionTypeList[a].id+'</td>'+
                             '<td>'+questionTypeList[a].questionType+'</td>'+
-                            '<td><span class="fa fa-trash" onclick="deleteQuestionType('+questionTypeList[a].id+')"></span> </td> '+
-                            '<td><span class="fa fa-undo" data-toggle="modal" data-target="#myModal" onclick="getQuestionType('+questionTypeList[a].id+')"></span></td>'+
+                            '<td><button class="btn btn-danger" onclick="deleteQuestionType('+questionTypeList[a].id+')"><span class="fa fa-trash" ></span> </button> '+
+                            '<button class="btn btn-info" onclick="getQuestionType('+questionTypeList[a].id+')"><span class="fa fa-undo" data-toggle="modal" data-target="#myModal" ></span></button></td>'+
                         '</tr>';
         }
         result+='</table>';

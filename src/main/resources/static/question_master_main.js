@@ -33,8 +33,8 @@
                             '<td>'+questionMasterList[a].question+'</td>'+
                             '<td>'+questionMasterList[a].questionType+'</td>'+
                             '<td>'+questionMasterList[a].questionLevel+'</td>'+
-                            '<td><span class="fa fa-trash" onclick="deleteQuestionMaster('+questionMasterList[a].id+')"></span> </td> '+
-                            '<td><span class="fa fa-undo" data-toggle="modal" data-target="#myModal" onclick="getQuestionMaster('+questionMasterList[a].id+')"></span></td>'+
+                            '<td><button class="btn btn-danger" onclick="deleteQuestionMaster('+questionMasterList[a].id+')"><span class="fa fa-trash" ></span> </button> '+
+                            '<button class="btn btn-info" onclick="getQuestionMaster('+questionMasterList[a].id+')"><span class="fa fa-undo" data-toggle="modal" data-target="#myModal" ></span></button></td>'+
                         '</tr>';
         }
         result+='</table>';
@@ -125,7 +125,8 @@
                 console.log(response);
                 var modalQuestionMaster = document.getElementById('modal-question-answer');
                 var responseQuestionMaster = response.data.data;
-
+                selectLovQuestionType(responseQuestionMaster.questionType);
+                selectLovQuestionLevel(responseQuestionMaster.questionLevel);
                 document.getElementById('id').value = responseQuestionMaster.id;
                 modalQuestionMaster.innerHTML = '<div class="col-md-12">'+
                                                      '<div class="form-group">'+
@@ -164,3 +165,50 @@
               });
       }
 
+    function selectLovQuestionType(params){
+        axios.get('http://localhost:8089/question_types/lov')
+          .then(function (response) {
+            // handle success
+            var listLov = response.data;
+            var result = '<option value="0">Choose</option>';
+            for (var a=0;a<listLov.length;a++){
+                if(listLov[a].id==params){
+                    result+='<option value="'+listLov[a].id+'" selected>('+listLov[a].id+'). '+listLov[a].name+'</option>'
+                }else{
+                    result+='<option value="'+listLov[a].id+'">('+listLov[a].id+'). '+listLov[a].name+'</option>'
+                }
+            }
+            document.getElementById('questionType').innerHTML = result;
+
+          })
+          .catch(function (error) {
+            // handle error
+            console.log(error);
+          })
+          .finally(function () {
+            // always executed
+          });
+     }
+     function selectLovQuestionLevel(params){
+         axios.get('http://localhost:8089/question_levels/lov')
+           .then(function (response) {
+             // handle success
+             var listLov = response.data;
+             var result = '<option value="0">Choose</option>';
+             for (var a=0;a<listLov.length;a++){
+                 if(listLov[a].id==params){
+                     result+='<option value="'+listLov[a].id+'" selected>('+listLov[a].id+'). '+listLov[a].name+'</option>'
+                 }else{
+                     result+='<option value="'+listLov[a].id+'">('+listLov[a].id+'). '+listLov[a].name+'</option>'
+                 }
+             }
+             document.getElementById('questionLevel').innerHTML = result;
+           })
+           .catch(function (error) {
+             // handle error
+             console.log(error);
+           })
+           .finally(function () {
+             // always executed
+           });
+      }

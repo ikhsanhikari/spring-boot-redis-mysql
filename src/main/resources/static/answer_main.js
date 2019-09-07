@@ -25,7 +25,7 @@
                             '<th>Question</th>'+
                             '<th>Variable</th>'+
                             '<th>Status</th>'+
-                            '<th colspan="2">Action</th>'+
+                            '<th >Action</th>'+
                         '</tr>';
         for (var a = 0 ; a < answerList.length; a++){
 
@@ -35,8 +35,8 @@
                             '<td>'+answerList[a].idQuestion+'</td>'+
                             '<td>'+answerList[a].variable+'</td>'+
                             '<td>'+answerList[a].status+'</td>'+
-                            '<td><span class="fa fa-trash" onclick="deleteAnswer('+answerList[a].id+')"></span> </td> '+
-                            '<td><span class="fa fa-undo" data-toggle="modal" data-target="#myModal" onclick="getAnswer('+answerList[a].id+')"></span></td>'+
+                            '<td><button class="btn btn-danger" onclick="deleteAnswer('+answerList[a].id+')"><span class="fa fa-trash" ></span> </button> '+
+                            '<button class="btn btn-info" onclick="getAnswer('+answerList[a].id+')"><span class="fa fa-undo" data-toggle="modal" data-target="#myModal" ></span></button></td>'+
                         '</tr>';
         }
         result+='</table>';
@@ -192,29 +192,27 @@
               });
       }
 
-        function selectLovQuestion(params){
-
-            axios.get('http://localhost:8089/question-masters/lov')
-              .then(function (response) {
-                // handle success
-                var listLov = response.data;
-                var result = '';
-                for (var a=0;a<listLov.length;a++){
-                    if(listLov[a].id==params){
-                        result+='<option value="'+listLov[a].id+'" selected>('+listLov[a].id+'). '+listLov[a].name+'</option>'
-                    }else{
-                        result+='<option value="'+listLov[a].id+'">('+listLov[a].id+'). '+listLov[a].name+'</option>'
-                    }
-
+    function selectLovQuestion(params){
+        axios.get('http://localhost:8089/question-masters/lov')
+          .then(function (response) {
+            // handle success
+            var listLov = response.data;
+            var result = '<option value="0">Choose</option>';
+            for (var a=0;a<listLov.length;a++){
+                if(listLov[a].id==params){
+                    result+='<option value="'+listLov[a].id+'" selected>('+listLov[a].id+'). '+listLov[a].name+'</option>'
+                }else{
+                    result+='<option value="'+listLov[a].id+'">('+listLov[a].id+'). '+listLov[a].name+'</option>'
                 }
-                document.getElementById('idQuestion').innerHTML = result;
+            }
+            document.getElementById('idQuestion').innerHTML = result;
 
-              })
-              .catch(function (error) {
-                // handle error
-                console.log(error);
-              })
-              .finally(function () {
-                // always executed
-              });
-         }
+          })
+          .catch(function (error) {
+            // handle error
+            console.log(error);
+          })
+          .finally(function () {
+            // always executed
+          });
+     }

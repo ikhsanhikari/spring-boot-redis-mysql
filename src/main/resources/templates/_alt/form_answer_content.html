@@ -4,42 +4,38 @@
 
 <h1>Answer Management</h1> <br>
 <form name="frm">
-<div class="row">
+    <div class="row">
         <div class="col-md-6">
-                <div class="form-group">
-                    <label for="answerText">Answer:</label>
-                    <textarea class="form-control" rows="5" id="answerText" name="answerText"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="variable">Variable:</label>
-                    <select class="form-control" id="variable" name="variable">
-                        <option>A</option>
-                        <option>B</option>
-                        <option>C</option>
-                        <option>D</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="idQuestion">Id Question:</label>
-                    <select class="form-control" id="idQuestion" name="idQuestion">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <input type="checkbox" id="status" name="status"> <label>Status</label>
-                </div>
-
+            <div class="form-group">
+                <label for="answerText">Answer:</label>
+                <textarea class="form-control" rows="5" id="answerText" name="answerText"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="variable">Variable:</label>
+                <select class="form-control" id="variable" name="variable">
+                    <option value="0">Choose</option>
+                    <option>A</option>
+                    <option>B</option>
+                    <option>C</option>
+                    <option>D</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="idQuestion">Id Question:</label>
+                <select class="form-control" id="idQuestion" name="idQuestion">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="checkbox" id="status" name="status"> <label>Status</label>
+            </div>
         </div>
-        <div class="col-md-6">
-            <div id="answerForm"></div>
-        </div>
-
-</div>
+    </div>
 </form>
-<button id="btnSave" class="btn btn-primary" onclick="save()">Save</button>
+<button id="btnSave" class="btn btn-info" onclick="save()">Save</button>
 <script>
    selectLovQuestion('');
 </script>

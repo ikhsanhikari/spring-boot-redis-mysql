@@ -58,7 +58,28 @@ public class Index {
     }
 
     @GetMapping("/create-question-type")
-    public String createAnswerQuestionType(){
+    public String createQuestionType(){
         return "create_question_type";
+    }
+
+
+    @GetMapping("/question-level")
+    public String questionLevel(){
+        return "question_level";
+    }
+
+    @GetMapping("/create-question-level")
+    public String createQuestionLevel(){
+        return "create_question_level";
+    }
+
+    @GetMapping("/short-answer")
+    public String shortAnswer(){
+        return "short_answer";
+    }
+
+    @GetMapping("/create-short-answer")
+    public String createShortANswer(){
+        return "create_short_answer";
     }
 }

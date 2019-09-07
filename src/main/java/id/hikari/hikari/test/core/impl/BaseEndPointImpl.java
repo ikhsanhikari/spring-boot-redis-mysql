@@ -39,8 +39,8 @@ public class BaseEndPointImpl<T,ID> implements BaseEndPoint<T,ID> {
     @Override
     @PostMapping("")
     public ResponseEntity save(@RequestBody T t){
-        baseRepository.save(t);
-        return  ResponseEntity.ok(new JsonWrapper(0,"save",HttpStatus.OK,null));
+        t = baseRepository.save(t);
+        return  ResponseEntity.ok(new JsonWrapper(0,"save",HttpStatus.OK,t));
 
     }
 

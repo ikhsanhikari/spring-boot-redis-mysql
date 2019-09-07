@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>E-Learning</title>
+
+    <!-- Bootstrap CSS CDN -->
+    <!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">-->
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+</head>
+
+<body>
+<div class="container">
+    <div class="page-header">
+        <h2>This Multiple Choice so hard, i hope you answer it correctly</h2>
+        <p id="packageHeader"></p>
+        <p id="time"></p>
+    </div>
+    <br>
+    <input type="hidden" id="packageUnique" >
+    <div class="progress">
+        <div class="progress-bar bg-success" style="width:25%">
+            Step 1
+        </div>
+        <div class="progress-bar bg-warning" style="width:25%">
+            Step 2
+        </div>
+    </div>
+    <form name="frm">
+        <div class="row">
+            <div class="col-md-6">
+                <div id="listQuestion"></div>
+                <div class="panel-group" id="questionPanel">
+
+                </div>
+            </div>
+            <div class="col-md-6">
+
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<!--        <div class="line"></div>-->
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <button class="btn btn-info" onclick="save()" id="btnSubmit">Submit</button>
+<!--            <button class="btn btn-info" disabled="true" id="btnNext" onclick="selectResultMultiple()">Result</button>-->
+            <button class="btn btn-info" disabled="true" id="btnNext" onclick="realoadPage()">Next</button>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery CDN - Slim version (=without AJAX) -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<!-- Popper.JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+<!-- Bootstrap JS -->
+<!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>-->
+
+<script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+        });
+</script>
+
+<script>
+    var questionAmount = 0;
+
+    selectAllQuestion();
+
+    var idUser = 0;
+
+    function selectAllQuestion(){
+        axios.get('http://localhost:8089/questions/rand?limit=5')
+      .then(function (response) {
+        // handle success
+
+        var url = new URL(window.location.href);
+        idUser = url.searchParams.get("idUser");
+
+        console.log(response);
+        questionData(response);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+      .finally(function () {
+        // always executed
+      });
+    }
+
+
+     function questionData(response){
+        var question = document.getElementById('questionPanel');
+        var questionList = response.data.attributes;
+        var result = '';
+        questionAmount = questionList.length;
+        for (var a = 0 ; a < questionList.length; a++){
+            var responseQuestion = questionList[a];
+            var answerList = response.data.attributes[a].answers;
+            result += '<div class="panel">'+
+                            '<div class="panel-heading">'+
+                                '<h4 class="panel-title">'+
+                                    '<a data-toggle="collapse" data-parent="#questionPanel" href="#question'+(a+1)+'">'+
+                                       ' Question '+(a+1)+'</a>'+
+                                '</h4><input type="hidden" name="idQuestion['+a+']" value="'+responseQuestion.id+'">'+
+                            '</div>'+
+                            '<div id="question'+(a+1)+'" class="panel-collapse collapse">'+
+                                '<div class="panel-body"> ';
+             result += '<h4><pre>'+responseQuestion.question+'</pre></h4> <div class="container">';
+            for (var b = 0; b < answerList.length; b++){
+                var responseAnswer = answerList[b];
+                result+='<div class="radio"> '+
+                            '<input type="radio" required value="'+responseAnswer.id+'" name="answer['+a+']"> '+responseAnswer.variable+'. '+responseAnswer.answer+
+                        '</div>';
+
+            }
+            result+='</div></div>'+
+                '</div>'+
+            '</div>';
+        }
+
+        question.innerHTML = result;
+      }
+
+      var myVar = setInterval(myTimer, 1000);
+      var timeOut = 0;
+      function myTimer() {
+          document.getElementById("time").innerHTML = 'Time: '+timeOut;
+          timeOut+=1;
+      }
+
+
+     var packageGlobal = '';
+
+      function save(){
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Are You Sure for Submit Your Answer ?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, im sure!'
+          }).then((result) => {
+            if (result.value) {
+                var frm = document.forms['frm'];
+                var payload = [];
+                for(var a=0;a<questionAmount;a++){
+                    console.log(frm['answer['+a+']'].value);
+                    payload.push(
+                        {
+                            idUser: idUser,
+                            idQuestion: frm['idQuestion['+a+']'].value,
+                            idAnswer:frm['answer['+a+']'].value
+                          }
+                    );
+
+                }
+
+                axios.post('http://localhost:8089/result_multiple_choice', payload)
+                  .then(function (response) {
+                    clearInterval(myVar);
+                    Swal.fire(
+                      'Success',
+                      'Question has been saving, finish with '+(timeOut-1)+' second',
+                      'success'
+                    )
+
+                    document.getElementById('btnNext').disabled = false;
+                    document.getElementById('btnSubmit').disabled = true;
+
+                    document.getElementById('packageUnique').value = response.data.data
+                    document.getElementById('packageHeader').innerHTML = 'Package Unique: '+response.data.data
+
+                    var packageUnique = document.getElementById('packageUnique').value;
+
+                    packageGlobal = packageUnique;
+
+
+                  })
+                  .catch(function (error) {
+                    console.log(error);
+                  });
+
+            }
+          })
+
+      }
+
+
+      function selectResultMultiple(){
+        var packageUnique = document.getElementById('packageUnique').value
+
+        packageGlobal = packageUnique;
+
+        axios.get('http://localhost:8089/result_multiple_choice/find_answer/'+packageUnique)
+          .then(function (response) {
+            // handle success
+            //console.log(response);
+            //resultData(response);
+            Swal.fire(
+                      'Your Score is '+response.data.point,
+                      'Congratulation for your answer, keep learn and get your greater score',
+                      'success'
+                    )
+            document.getElementById('btnNext').disabled = true;
+            document.getElementById('btnRefresh').disabled = false;
+          })
+          .catch(function (error) {
+            // handle error
+            console.log(error);
+          })
+          .finally(function () {
+            // always executed
+          });
+      }
+
+      function resultData(response){
+        var result = response.data.point;
+        //document.getElementById('resultMultiple').innerHTML = result;
+      }
+      function realoadPage(){
+        window.location = 'http://localhost:8089/short-answer-standard?idUser='+idUser+'&packageUnique='+packageGlobal
+      }
+
+</script>
+</body>
+
+</html>

@@ -108,3 +108,52 @@
            }
            document.getElementById('answerForm').innerHTML = result;
       }
+
+
+     function selectLovQuestionType(params){
+             axios.get('http://localhost:8089/question_types/lov')
+               .then(function (response) {
+                 // handle success
+                 var listLov = response.data;
+                 var result = '<option value="0">Choose</option>';
+                 for (var a=0;a<listLov.length;a++){
+                     if(listLov[a].id==params){
+                         result+='<option value="'+listLov[a].id+'" selected>('+listLov[a].id+'). '+listLov[a].name+'</option>'
+                     }else{
+                         result+='<option value="'+listLov[a].id+'">('+listLov[a].id+'). '+listLov[a].name+'</option>'
+                     }
+                 }
+                 document.getElementById('questionType').innerHTML = result;
+
+               })
+               .catch(function (error) {
+                 // handle error
+                 console.log(error);
+               })
+               .finally(function () {
+                 // always executed
+               });
+          }
+          function selectLovQuestionLevel(params){
+              axios.get('http://localhost:8089/question_levels/lov')
+                .then(function (response) {
+                  // handle success
+                  var listLov = response.data;
+                  var result = '<option value="0">Choose</option>';
+                  for (var a=0;a<listLov.length;a++){
+                      if(listLov[a].id==params){
+                          result+='<option value="'+listLov[a].id+'" selected>('+listLov[a].id+'). '+listLov[a].name+'</option>'
+                      }else{
+                          result+='<option value="'+listLov[a].id+'">('+listLov[a].id+'). '+listLov[a].name+'</option>'
+                      }
+                  }
+                  document.getElementById('questionLevel').innerHTML = result;
+                })
+                .catch(function (error) {
+                  // handle error
+                  console.log(error);
+                })
+                .finally(function () {
+                  // always executed
+                });
+           }

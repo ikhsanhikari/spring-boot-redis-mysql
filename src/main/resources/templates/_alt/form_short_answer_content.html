@@ -1,0 +1,33 @@
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+<script src="short_answer_main.js"></script>
+
+<h1>Short Answer Management</h1> <br>
+<form name="frm">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="questionText">Question:</label>
+                <textarea class="form-control" rows="5" id="questionText" name="questionText"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="shortAnswer">Short Answer:</label>
+                <input type="text" class="form-control" id="shortAnswer" name="shortAnswer">
+            </div>
+            <div class="form-group">
+                <label for="questionLevel">Question Type:</label>
+                <select class="form-control" id="questionLevel" name="questionLevel">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</form>
+<button id="btnSave" class="btn btn-info" onclick="save()">Save</button>
+
+<script>
+    selectLovQuestionLevel('');
+</script>

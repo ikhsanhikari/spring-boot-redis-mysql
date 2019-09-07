@@ -1,6 +1,7 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 <script src="question_master_main.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 
 
@@ -16,8 +17,8 @@
                 </div>
             </form>
             <div class="modal-footer">
-                <button class="btn btn-primary" onclick="update()">Save</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button class="btn btn-info" onclick="update()">Save</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -25,6 +26,13 @@
 </div>
 
 <h1>Question Management</h1> <br>
+
+<div class="row">
+    <div class="col-md-12">
+        <button class="btn btn-info" id="btnCreate"><span class="fa fa-plus"></span> Create</button>
+    </div>
+</div><br>
+
 <div class="row">
 
     <div class="col-md-12">
@@ -34,4 +42,7 @@
 
 <script>
     selectAllQuestionMaster();
+     $('#btnCreate').click(function(){
+        window.location = "http://localhost:8089/create-question-master";
+    });
 </script>

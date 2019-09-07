@@ -15,6 +15,7 @@ import id.hikari.hikari.test.data.model.Question;
 import id.hikari.hikari.test.data.model.QuestionAnswer;
 import id.hikari.hikari.test.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -160,5 +161,41 @@ public class QuestionServiceImpl implements QuestionService {
             questionRedisDAO.setToCache(id,questionDTO);
             return new DataResponse(id,"Questions",questionDTO);
         }
+    }
+
+    @Override
+    public DataResponse selectByRand(Integer limit) {
+        List<ResponseQuestionDTO> result = new ArrayList<>();
+        PageRequest pageRequest = new PageRequest(0,limit);
+        List<Question> questions = questionDAO.findByRand(pageRequest);
+
+
+        for (Question question: questions){
+
+            List<ResponseAnswerDTO> answerDTOS = new ArrayList<>();
+            ResponseQuestionDTO questionDTO = new ResponseQuestionDTO();
+            questionDTO.setId(question.getId());
+            questionDTO.setQuestionLevel(question.getQuestionLevel());
+            questionDTO.setQuestionType(question.getQuestionType());
+            questionDTO.setQuestion(question.getQuestion());
+            List<Answer> answers  = answerDAO.findAnswerByQuestion(question.getId());
+
+            for (Answer answer : answers) {
+                ResponseAnswerDTO answerDTO = new ResponseAnswerDTO();
+                answerDTO.setId(answer.getId());
+                answerDTO.setAnswer(answer.getAnswer());
+                answerDTO.setVariable(answer.getVariable());
+                answerDTO.setStatus(answer.getStatus());
+                answerDTOS.add(answerDTO);
+            }
+            questionDTO.setAnswers(answerDTOS);
+
+            result.add(questionDTO);
+
+        }
+
+//        return result;
+
+        return new DataResponse("All Questions","Questions",result);
     }
 }

@@ -1,10 +1,17 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 <script src="question_main.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 <h1>Question Answer Management</h1> <br>
-<div class="row">
 
+<div class="row">
+    <div class="col-md-12">
+        <button class="btn btn-info" id="btnCreate"><span class="fa fa-plus"></span> Create</button>
+    </div>
+</div><br>
+
+<div class="row">
     <div class="col-md-12">
         <div id="question"></div>
     </div>
@@ -12,4 +19,7 @@
 
 <script>
     selectAllQuestion();
+     $('#btnCreate').click(function(){
+        window.location = "http://localhost:8089/create-question";
+    });
 </script>
