@@ -1,6 +1,6 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
-<script src="answer_main.js"></script>
+<script src="summary_main.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 <!-- Modal -->
@@ -22,32 +22,29 @@
 </div>
 </div>
 
-<h1>Answer Management</h1> <br>
+<h1>Summary Standard Exercise</h1> <br>
 
 <div class="row">
-    <div class="col-md-5">
-        <button class="btn btn-info" id="btnCreate"><span class="fa fa-plus"></span> Create</button>
-    </div>
-    <div class="col-md-3">
-        <div class="input-group mb-3">
-            <div class="input-group-append">
-                <button class="btn btn-info" type="button" onclick="selectAnswerByQuestion()">Search</button>
-            </div>
-            <input type="text" class="form-control" placeholder="Question ID"  id="search">
-        </div>
+<!--    <div class="col-md-5">-->
+<!--        <button class="btn btn-info" id="btnCreate"><span class="fa fa-plus"></span> Create</button>-->
+<!--    </div>-->
+<!--    <div class="col-md-3">-->
+<!--        <div class="input-group mb-3">-->
+<!--            <div class="input-group-append">-->
+<!--                <button class="btn btn-info" type="button" onclick="selectAnswerByQuestion()">Search</button>-->
+<!--            </div>-->
+<!--            <input type="text" class="form-control" placeholder="Question ID"  id="search">-->
+<!--        </div>-->
 
-    </div>
+<!--    </div>-->
 </div><br>
 
 <div class="row">
     <div class="col-md-12">
-        <div id="answer"></div>
+        <div id="summary"></div>
     </div>
 </div>
 
 <script>
-    selectAllAnswer('');
-     $('#btnCreate').click(function(){
-        window.location = "http://localhost:8089/create-answer";
-    });
+    selectAllSummary();
 </script>

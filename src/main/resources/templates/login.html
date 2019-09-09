@@ -1,0 +1,52 @@
+<!--<form th:action="@{/login}" method="post">-->
+<!--    <input type="text" name="username">-->
+<!--    <input type="text" name="password">-->
+<!--    <input type="submit" value="submit">-->
+<!--</form>-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Hikari Login</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div class="container">
+
+    <form th:action="@{/login}" method="post">
+        <div class="row">
+            <div class="col-md-offset-4 col-md-4">
+                <h1><span class="fa fa-graduation-cap"></span>Hikari Learning</h1><br>
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" class="form-control" id="username" placeholder="Enter username" name="username">
+                </div>
+                <div class="form-group">
+                    <label for="pwd">Password:</label>
+                    <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="password">
+                </div>
+                <div th:if ="${param.error != null}" class="alert alert-danger">
+                    <strong>Warning!</strong> Invalid username and password.
+                </div>
+                <div th:if ="${param.logout != null}" class="alert alert-info">
+                    <strong>Info!</strong> You have been logged out
+                </div>
+
+                <button type="submit" class="btn btn-info">Submit</button>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+</body>
+</html>
+

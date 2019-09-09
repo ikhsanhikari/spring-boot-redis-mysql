@@ -14,6 +14,24 @@
           });
     }
 
+    function selectAnswerByQuestion(){
+         var a = document.getElementById('search').value;
+         if(a==''){
+            a=1;
+         }
+            axios.get('http://localhost:8089/answers/question/'+a)
+              .then(function (response) {
+                // handle success
+                answerData(response);
+              })
+              .catch(function (error) {
+                // handle error
+                console.log(error);
+              })
+              .finally(function () {
+                // always executed
+              });
+        }
 
      function answerData(response){
         var answer = document.getElementById('answer');

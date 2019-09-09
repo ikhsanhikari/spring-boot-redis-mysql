@@ -181,7 +181,7 @@
 
           }
 
-          axios.post('http://localhost:8089/guest_users/login', payloadReg)
+          axios.post('http://localhost:8089/guest_users/loginGuest', payloadReg)
           .then(function (response) {
 
             idUser = response.data.data.idUser

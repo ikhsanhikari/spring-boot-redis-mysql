@@ -126,11 +126,13 @@
         var url = new URL(window.location.href);
         idUser = url.searchParams.get("idUser");
         packageGlobal = url.searchParams.get("packageUnique");
+        document.getElementById('packageHeader').innerHTML = 'Package Unique: '+packageGlobal;
+
         axios.get('http://localhost:8089/result_short_answer?packageUnique='+packageGlobal)
       .then(function (response) {
         // handle success
 
-        document.getElementById('packageHeader').innerHTML = 'Package Unique: '+packageGlobal
+
 
         console.log(response);
         shortAnswerData(response);
@@ -164,7 +166,7 @@
             }
             result += '<tr>'+
                             '<td>'+responseQuestion.id+'</td>'+
-                            '<td>'+responseQuestion.question+'</td>'+
+                            '<td><pre>'+responseQuestion.question+'</pre></td>'+
                             '<td>'+responseQuestion.rightAnswer+'</td>'+
                             '<td>'+responseQuestion.userAnswer+'</td>'+
                             '<td>'+statusAnswer+'</td>'+
@@ -186,11 +188,11 @@
         var url = new URL(window.location.href);
         idUser = url.searchParams.get("idUser");
         packageGlobal = url.searchParams.get("packageUnique");
+        document.getElementById('packageHeader').innerHTML = 'Package Unique: '+packageGlobal
         axios.get('http://localhost:8089/result_multiple_choice?packageUnique='+packageGlobal)
       .then(function (response) {
         // handle success
 
-        document.getElementById('packageHeader').innerHTML = 'Package Unique: '+packageGlobal
 
         console.log(response);
         MultipleResultData(response);
@@ -224,7 +226,7 @@
             }
             result += '<tr>'+
                             '<td>'+responseQuestion.id+'</td>'+
-                            '<td>'+responseQuestion.question+'</td>'+
+                            '<td><pre>'+responseQuestion.question+'</pre></td>'+
                             '<td>'+responseQuestion.rightVariable+'. '+responseQuestion.rightAnswerValue+'</td>'+
                             '<td>'+responseQuestion.userVariable+'. '+responseQuestion.userAnswerValue+'</td>'+
                             '<td>'+statusAnswer+'</td>'+
@@ -329,6 +331,11 @@
       }
 
 </script>
+<style>
+   pre{
+    background-color:white;
+   }
+</style>
 </body>
 
 </html>

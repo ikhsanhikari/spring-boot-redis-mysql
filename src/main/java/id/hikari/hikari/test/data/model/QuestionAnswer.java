@@ -3,12 +3,14 @@ package id.hikari.hikari.test.data.model;
 import id.hikari.hikari.test.data.dto.response.ResponseMultipleResult;
 import id.hikari.hikari.test.data.dto.response.ResponseMultipleResultAll;
 import id.hikari.hikari.test.data.dto.response.ResponseResultShortAnswer;
+import id.hikari.hikari.test.data.dto.response.ResponseSummaryStandardResult;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 
 @SqlResultSetMappings({
@@ -58,6 +60,20 @@ import java.io.Serializable;
                         }
                 )
         ),
+        @SqlResultSetMapping(
+                name = "summary_mapping",
+                classes = @ConstructorResult(
+                        targetClass = ResponseSummaryStandardResult.class,
+                        columns = {
+                                @ColumnResult(name = "id",type = Integer.class),
+                                @ColumnResult(name = "username",type = String.class),
+                                @ColumnResult(name = "email",type = String.class),
+                                @ColumnResult(name = "phone",type = String.class),
+                                @ColumnResult(name = "created_at",type = Date.class),
+                                @ColumnResult(name = "package_unique",type = String.class),
+                        }
+                )
+        ),
 })
 
 @NamedNativeQueries({
@@ -101,7 +117,14 @@ import java.io.Serializable;
                         "and a.id = qa.id_answer " +
                         "and rmc.package_unique = :packageUnique ",
                 resultSetMapping = "result_multiple_all_mapping"
-        )
+        ),
+        @NamedNativeQuery(
+                name = "QuestionAnswer.getSummaryStandardResult",
+                query = "Select ssr.id,gu.username ,gu.email, gu.phone, ssr.created_at, ssr.package_unique " +
+                        "from guest_user gu, summary_standard_result ssr " +
+                        "where gu.id = ssr.user_id order by ssr.id desc ",
+                resultSetMapping = "summary_mapping"
+        ),
 
 })
 @ToString

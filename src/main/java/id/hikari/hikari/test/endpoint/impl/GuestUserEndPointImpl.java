@@ -22,7 +22,7 @@ public class GuestUserEndPointImpl extends BaseEndPointImpl<GuestUser,Integer> {
     @Autowired
     private GuestUserDAO guestUserDAO;
 
-    @PostMapping("/login")
+    @PostMapping("/loginGuest")
     public ResponseEntity login(@RequestBody RequestLogin requestLogin){
         List<GuestUser> guestUsers = guestUserDAO.findByUsername(requestLogin.getUsername());
         Boolean status = false;

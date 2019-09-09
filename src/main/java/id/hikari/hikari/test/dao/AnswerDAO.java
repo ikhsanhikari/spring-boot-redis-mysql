@@ -9,4 +9,7 @@ import java.util.List;
 public interface AnswerDAO extends JpaRepository<Answer,Integer> {
     @Query("SELECT a FROM Answer a WHERE a.idQuestion = ?1 ")
     List<Answer> findAnswerByQuestion(Integer questionId);
+
+    @Query("SELECT a FROM Answer a WHERE a.idQuestion = ?1 ")
+    List<Answer> findAnswerByQuestionString(String questionId);
 }
